@@ -13,7 +13,7 @@ void CargarTareas(TAREA **tarea, int cantidad);
 void mostrarTarea(TAREA **tarea, int cantidad);
 void moverTareas(TAREA **pTareas, TAREA **pTareasHechas, int cantidad);
 void mostrarTareasHechasYPendientes(TAREA **pTareasHechas, TAREA **pTareasPendientes, int cantidad);
-TAREA *BuscarTareaPorID(TAREA **tarea, int cant);
+TAREA *BuscarTarea(TAREA **tarea, int cant);
 
 int main(){
     srand(time(NULL));
@@ -34,7 +34,7 @@ int main(){
 
     mostrarTareasHechasYPendientes(pTareasHechas, pTareas, cantTareas);
 
-    tarea = BuscarTareaPorID(pTareas, cantTareas);
+    tarea = BuscarTarea(pTareas, cantTareas);
     if(tarea != NULL){
         printf("\n------- TAREA ENCONTRADA -------\n");
         printf("Tarea ID: %d\n", tarea->TareaID);
@@ -42,12 +42,7 @@ int main(){
         printf("Duracion: %d\n", tarea->Duracion);
     }
 
-    
-
-
-
     return 0;
-
 }
 
 void CargarTareas(TAREA **tarea, int cantidad){
@@ -132,7 +127,7 @@ void mostrarTareasHechasYPendientes(TAREA **pTareasHechas, TAREA **pTareasPendie
     }
 }
 
-TAREA *BuscarTareaPorID(TAREA **tarea, int cant){
+TAREA *BuscarTarea(TAREA **tarea, int cant){
     int ID;
     printf("\nIngrese el ID para buscar la tarea:\n");
     scanf("%d", &ID);
