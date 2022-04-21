@@ -3,13 +3,19 @@
 #include <string.h>
 #include<time.h>
 
-typedef struct Tarea {
-int TareaID; //Numerado en ciclo iterativo
-char *Descripcion; //
-int Duracion; // entre 10 – 100
+typedef struct Tarea{
+    int TareaID; //Numerado en ciclo iterativo
+    char *Descripcion; //
+    int Duracion; // entre 10 – 100
 }TAREA;
 
-void CargarTareas(TAREA **tarea, int cantidad);
+typedef struct Nodo{
+    TAREA T;
+    NODO *Siguiente;
+}NODO;
+
+NODO *crearListaVacia();
+void CargarTareas(NODO *lista, int cantidad);
 void mostrarTarea(TAREA **tarea, int cantidad);
 void moverTareas(TAREA **pTareas, TAREA **pTareasHechas, int cantidad);
 void mostrarTareasHechasYPendientes(TAREA **pTareasHechas, TAREA **pTareasPendientes, int cantidad);
@@ -18,18 +24,17 @@ TAREA *BuscarTareaPorPalabra(TAREA **tarea, int cant);
 
 int main(){
     srand(time(NULL));
-    TAREA *tarea;
-    TAREA *tarea_palabra;
+
+    NODO *ListaPendientes = crearListaVacia();
+    NODO *ListaHechas = crearListaVacia();
+
     int cantTareas;
 
     printf ("Ingrese la cantidad de tareas a cargar: ");
     scanf("%d", &cantTareas);
 
-    TAREA **pTareas, **pTareasHechas;
-    pTareas = (TAREA**) malloc(sizeof(TAREA)*cantTareas);
-    pTareasHechas = (TAREA**) malloc(sizeof(TAREA)*cantTareas);
 
-    CargarTareas(pTareas, cantTareas);
+    CargarTareas(ListaPendientes, cantTareas);
     mostrarTarea(pTareas, cantTareas);
     moverTareas(pTareas, pTareasHechas, cantTareas);
 
@@ -57,23 +62,22 @@ int main(){
     return 0;
 }
 
-void CargarTareas(TAREA **tarea, int cantidad){
-TAREA *buff;
-    for(int i=0; i < cantidad; i++){
+NODO *crearListaVacia(){
+    return (NULL);
+}
 
+void CargarTareas(NODO *lista, int cantidad){
+
+    for(int i=0; i < cantidad; i++){
         printf("------Carga de tareas----------\n");
-        buff=(TAREA *)malloc(sizeof(tarea));
-        (buff)->TareaID=i+1;
-        (buff)->Descripcion=(char *)malloc(sizeof(char)*100);
+        lista->T.TareaID = i + 1;
+        lista->T.Descripcion=(char *)malloc(sizeof(char)*100);
         fflush(stdin);
         printf("Ingresar Descripcion: \n");
-        gets((buff)->Descripcion);
-        (buff)->Duracion=rand()%(100-10+1)+10;
-        *tarea=buff;
-        tarea++;
+        gets(lista->T.Descripcion);
+        lista->T.Duracion=rand()%(100-10+1)+10;
+        lista = lista->Siguiente;
     }
-
-    free(buff);
 }
 
 void mostrarTarea(TAREA **tarea, int cantidad){
@@ -139,36 +143,4 @@ void mostrarTareasHechasYPendientes(TAREA **pTareasHechas, TAREA **pTareasPendie
             printf("Duracion: %d\n", pTareasPendientes[i]->Duracion);
         }
     }
-}
-
-TAREA *BuscarTareaPorID(TAREA **tarea, int cant){
-    int ID;
-    printf("\nIngrese el ID para buscar la tarea:\n");
-    scanf("%d", &ID);
-    for (int i = 0; i < cant; i++)
-    {
-        if (tarea[i]->TareaID == ID)
-        {
-            return tarea[i];
-        }
-
-    }
-    printf("No se encontraron coincidencias\n");
-    return NULL;
-}
-
-TAREA *BuscarTareaPorPalabra(TAREA **tarea, int cant){
-    char palabra[20];
-    printf("\nIngrese una palabra clave para buscar la tarea:\n");
-    fflush(stdin);
-    gets(palabra);
-    for (int i = 0; i < cant; i++)
-    {
-        if (strstr(tarea[i]->Descripcion, palabra))
-        {
-            return tarea[i];
-        }
-    }
-    printf("No se encontraron coincidencias\n");
-    return NULL;
 }
