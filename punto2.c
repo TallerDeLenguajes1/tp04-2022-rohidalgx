@@ -19,6 +19,7 @@ int main(){
     srand(time(NULL));
     TAREA *tarea_palabra;
     int cantTareas;
+    TAREA *tarea;
 
     printf ("Ingrese la cantidad de tareas a cargar: ");
     scanf("%d", &cantTareas);
@@ -33,7 +34,8 @@ int main(){
 
     mostrarTareasHechasYPendientes(pTareasHechas, pTareas, cantTareas);
 
-    tarea_palabra = BuscarTarea(pTareas, cantTareas);
+<<<<<<< HEAD
+    tarea_palabra = BuscarTareaPalabra(pTareas, cantTareas);
     if(tarea_palabra != NULL){
         printf("\n------- TAREA ENCONTRADA -------\n");
         printf("Tarea ID: %d\n", tarea_palabra->TareaID);
@@ -42,7 +44,17 @@ int main(){
     }
 
     return 0;
+=======
+    tarea = BuscarTareaID(pTareas, cantTareas);
+    if(tarea != NULL){
+        printf("\n------- TAREA ENCONTRADA -------\n");
+        printf("Tarea ID: %d\n", tarea->TareaID);
+        printf("Descripcion: %s\n", tarea->Descripcion);
+        printf("Duracion: %d\n", tarea->Duracion);
+    }
+>>>>>>> BuscaTarea
 
+    return 0;
 }
 
 void CargarTareas(TAREA **tarea, int cantidad){
@@ -85,7 +97,7 @@ void moverTareas(TAREA **pTareas, TAREA **pTareasHechas, int cantidad){
             printf("Tarea ID: %d\n", pTareas[i]->TareaID);
             printf("Descripcion: %s\n", pTareas[i]->Descripcion);
             printf("Duracion: %d\n", pTareas[i]->Duracion);
-            printf("\n----- Mover a realizadas? (1 = SI; 0 = NO)-----\n");
+            printf("\nMover a realizadas? (1 = SI; 0 = NO)-----\n");
             scanf("%d", &si_o_no);
 
             if (si_o_no == 1)
@@ -127,8 +139,9 @@ void mostrarTareasHechasYPendientes(TAREA **pTareasHechas, TAREA **pTareasPendie
     }
 }
 
+<<<<<<< HEAD
 
-TAREA *BuscarTarea(TAREA **tarea, int cant){
+TAREA *BuscarTareaPalabra(TAREA **tarea, int cant){
     char palabra[20];
     printf("\nIngrese una palabra clave para buscar la tarea:\n");
     fflush(stdin);
@@ -139,6 +152,19 @@ TAREA *BuscarTarea(TAREA **tarea, int cant){
         {
             return tarea[i];
         }
+=======
+TAREA *BuscarTareaID(TAREA **tarea, int cant){
+    int ID;
+    printf("\nIngrese el ID para buscar la tarea:\n");
+    scanf("%d", &ID);
+    for (int i = 0; i < cant; i++)
+    {
+        if (tarea[i]->TareaID == ID)
+        {
+            return tarea[i];
+        }
+
+>>>>>>> BuscaTarea
     }
     printf("No se encontraron coincidencias\n");
     return NULL;
