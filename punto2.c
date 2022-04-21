@@ -13,13 +13,14 @@ void CargarTareas(TAREA **tarea, int cantidad);
 void mostrarTarea(TAREA **tarea, int cantidad);
 void moverTareas(TAREA **pTareas, TAREA **pTareasHechas, int cantidad);
 void mostrarTareasHechasYPendientes(TAREA **pTareasHechas, TAREA **pTareasPendientes, int cantidad);
-TAREA *BuscarTarea(TAREA **tarea, int cant);
+TAREA *BuscarTareaPorID(TAREA **tarea, int cant);
+TAREA *BuscarTareaPorPalabra(TAREA **tarea, int cant);
 
 int main(){
     srand(time(NULL));
+    TAREA *tarea;
     TAREA *tarea_palabra;
     int cantTareas;
-    TAREA *tarea;
 
     printf ("Ingrese la cantidad de tareas a cargar: ");
     scanf("%d", &cantTareas);
@@ -34,25 +35,21 @@ int main(){
 
     mostrarTareasHechasYPendientes(pTareasHechas, pTareas, cantTareas);
 
-<<<<<<< HEAD
-    tarea_palabra = BuscarTareaPalabra(pTareas, cantTareas);
-    if(tarea_palabra != NULL){
-        printf("\n------- TAREA ENCONTRADA -------\n");
-        printf("Tarea ID: %d\n", tarea_palabra->TareaID);
-        printf("Descripcion: %s\n", tarea_palabra->Descripcion);
-        printf("Duracion: %d\n", tarea_palabra->Duracion);
-    }
-
-    return 0;
-=======
-    tarea = BuscarTareaID(pTareas, cantTareas);
+    tarea = BuscarTareaPorID(pTareas, cantTareas);
     if(tarea != NULL){
         printf("\n------- TAREA ENCONTRADA -------\n");
         printf("Tarea ID: %d\n", tarea->TareaID);
         printf("Descripcion: %s\n", tarea->Descripcion);
         printf("Duracion: %d\n", tarea->Duracion);
     }
->>>>>>> BuscaTarea
+
+    tarea_palabra = BuscarTareaPorPalabra(pTareas, cantTareas);
+    if(tarea_palabra != NULL){
+        printf("\n------- TAREA ENCONTRADA -------\n");
+        printf("Tarea ID: %d\n", tarea_palabra->TareaID);
+        printf("Descripcion: %s\n", tarea_palabra->Descripcion);
+        printf("Duracion: %d\n", tarea_palabra->Duracion);
+    }
 
     return 0;
 }
@@ -139,21 +136,7 @@ void mostrarTareasHechasYPendientes(TAREA **pTareasHechas, TAREA **pTareasPendie
     }
 }
 
-<<<<<<< HEAD
-
-TAREA *BuscarTareaPalabra(TAREA **tarea, int cant){
-    char palabra[20];
-    printf("\nIngrese una palabra clave para buscar la tarea:\n");
-    fflush(stdin);
-    gets(palabra);
-    for (int i = 0; i < cant; i++)
-    {
-        if (strstr(tarea[i]->Descripcion, palabra))
-        {
-            return tarea[i];
-        }
-=======
-TAREA *BuscarTareaID(TAREA **tarea, int cant){
+TAREA *BuscarTareaPorID(TAREA **tarea, int cant){
     int ID;
     printf("\nIngrese el ID para buscar la tarea:\n");
     scanf("%d", &ID);
@@ -164,7 +147,22 @@ TAREA *BuscarTareaID(TAREA **tarea, int cant){
             return tarea[i];
         }
 
->>>>>>> BuscaTarea
+    }
+    printf("No se encontraron coincidencias\n");
+    return NULL;
+}
+
+TAREA *BuscarTareaPorPalabra(TAREA **tarea, int cant){
+    char palabra[20];
+    printf("\nIngrese una palabra clave para buscar la tarea:\n");
+    fflush(stdin);
+    gets(palabra);
+    for (int i = 0; i < cant; i++)
+    {
+        if (strstr(tarea[i]->Descripcion, palabra))
+        {
+            return tarea[i];
+        }
     }
     printf("No se encontraron coincidencias\n");
     return NULL;
